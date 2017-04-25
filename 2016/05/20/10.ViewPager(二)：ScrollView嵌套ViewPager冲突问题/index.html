@@ -1,0 +1,834 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="viewpager,android基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="问题描述ScrollView里面嵌套ViewPager之后ViewPager中的内容无法显示布局代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253&amp;lt;LinearLayout xmlns:android=&amp;quot;http://schemas.a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ViewPager(二)：ScrollView嵌套ViewPager">
+<meta property="og:url" content="http://yoursite.com/2016/05/20/10.ViewPager(二)：ScrollView嵌套ViewPager冲突问题/index.html">
+<meta property="og:site_name" content="Hello Mr. Tigger">
+<meta property="og:description" content="问题描述ScrollView里面嵌套ViewPager之后ViewPager中的内容无法显示布局代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253&amp;lt;LinearLayout xmlns:android=&amp;quot;http://schemas.a">
+<meta property="og:image" content="http://o7tnpfx3h.bkt.clouddn.com/viewpager_content_covered.png">
+<meta property="og:image" content="http://o7tnpfx3h.bkt.clouddn.com/viewpager_content_guding.png">
+<meta property="og:image" content="http://o7tnpfx3h.bkt.clouddn.com/viewpager_content_max.png">
+<meta property="og:image" content="http://o7tnpfx3h.bkt.clouddn.com/viewpager_conent_height_adjust1.png">
+<meta property="og:updated_time" content="2016-05-30T01:13:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ViewPager(二)：ScrollView嵌套ViewPager">
+<meta name="twitter:description" content="问题描述ScrollView里面嵌套ViewPager之后ViewPager中的内容无法显示布局代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253&amp;lt;LinearLayout xmlns:android=&amp;quot;http://schemas.a">
+<meta name="twitter:image" content="http://o7tnpfx3h.bkt.clouddn.com/viewpager_content_covered.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+  <title> ViewPager(二)：ScrollView嵌套ViewPager | Hello Mr. Tigger </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4663fb10621467161576336c2d28902";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hello Mr. Tigger</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">临渊羡鱼，不如退而结网</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'sS7J9SeHuvYDSdpx96Bb','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ViewPager(二)：ScrollView嵌套ViewPager
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-05-20T20:12:52+08:00" content="2016-05-20">
+              2016-05-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Android基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/20/10.ViewPager(二)：ScrollView嵌套ViewPager冲突问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/10.ViewPager(二)：ScrollView嵌套ViewPager冲突问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>ScrollView里面嵌套ViewPager之后ViewPager中的内容无法显示<br><img src="http://o7tnpfx3h.bkt.clouddn.com/viewpager_content_covered.png" alt="ViewPager中的内容无法显示"><br>布局代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot; &gt;</span><br><span class="line">    &lt;ScrollView</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot; &gt;</span><br><span class="line">        &lt;LinearLayout</span><br><span class="line">            android:layout_width=&quot;match_parent&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:orientation=&quot;vertical&quot; &gt;</span><br><span class="line">            &lt;RelativeLayout</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;350dp&quot;</span><br><span class="line">                android:background=&quot;#0000FF&quot; &gt;</span><br><span class="line">                &lt;TextView</span><br><span class="line">                    android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">                    android:layout_centerInParent=&quot;true&quot;</span><br><span class="line">                    android:text=&quot;很大一块内容 H:350dp&quot;</span><br><span class="line">                    android:textColor=&quot;#FFFFFF&quot; /&gt;</span><br><span class="line">            &lt;/RelativeLayout&gt;</span><br><span class="line">            &lt;LinearLayout</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;30dp&quot;</span><br><span class="line">                android:orientation=&quot;horizontal&quot; &gt;</span><br><span class="line">                &lt;TextView</span><br><span class="line">                    android:layout_width=&quot;0dp&quot;</span><br><span class="line">                    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">                    android:layout_weight=&quot;1&quot;</span><br><span class="line">                    android:gravity=&quot;center&quot;</span><br><span class="line">                    android:text=&quot;内容1&quot; /&gt;</span><br><span class="line">                &lt;TextView</span><br><span class="line">                    android:layout_width=&quot;0dp&quot;</span><br><span class="line">                    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">                    android:layout_weight=&quot;1&quot;</span><br><span class="line">                    android:gravity=&quot;center&quot;</span><br><span class="line">                    android:text=&quot;内容2&quot; /&gt;</span><br><span class="line">                &lt;TextView</span><br><span class="line">                    android:layout_width=&quot;0dp&quot;</span><br><span class="line">                    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">                    android:layout_weight=&quot;1&quot;</span><br><span class="line">                    android:gravity=&quot;center&quot;</span><br><span class="line">                    android:text=&quot;内容3&quot; /&gt;</span><br><span class="line">            &lt;/LinearLayout&gt;</span><br><span class="line">            &lt;android.support.v4.view.ViewPager</span><br><span class="line">                android:id=&quot;@+id/viewPager&quot;</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;wrap_content&quot; /&gt;</span><br><span class="line">        &lt;/LinearLayout&gt;</span><br><span class="line">    &lt;/ScrollView&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="解决方案一"><a href="#解决方案一" class="headerlink" title="解决方案一"></a>解决方案一</h3><p>设置ViewPager为固定高度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.v4.view.ViewPager</span><br><span class="line">    android:id=&quot;@+id/viewPager&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;200dp&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>ViewPager中的内容是已经显示出来了，但是内容1的高度是300dp，内容2的高度是500dp，内容3的高度800dp，现在只显示了200dp的高度显然是不满足我们的需求的<br><a id="more"></a><br><img src="http://o7tnpfx3h.bkt.clouddn.com/viewpager_content_guding.png" alt="此处输入图片的描述"></p>
+<h3 id="解决方案-二"><a href="#解决方案-二" class="headerlink" title="解决方案 二"></a>解决方案 二</h3><p>重写ViewPager的onMeasure方法<br>自定义ViewPager代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package com.hellsam.scrollviewwithviewpager;</span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.support.v4.view.ViewPager;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.view.View;</span><br><span class="line">/**</span><br><span class="line"> * 自适应子View高度的viewPager</span><br><span class="line"> * </span><br><span class="line"> * @author hellsam</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">public class AutoHeightViewPager extends ViewPager &#123;</span><br><span class="line">	public AutoHeightViewPager(Context context, AttributeSet attrs) &#123;</span><br><span class="line">		super(context, attrs);</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">		int height = 0;</span><br><span class="line">		// 下面遍历所有child的高度</span><br><span class="line">		for (int i = 0; i &lt; getChildCount(); i++) &#123;</span><br><span class="line">			View child = getChildAt(i);</span><br><span class="line">			child.measure(widthMeasureSpec,</span><br><span class="line">					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));</span><br><span class="line">			int h = child.getMeasuredHeight();</span><br><span class="line">			// 采用最大的view的高度</span><br><span class="line">			if (h &gt; height) &#123;</span><br><span class="line">				height = h;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		heightMeasureSpec = MeasureSpec.makeMeasureSpec(height,</span><br><span class="line">				MeasureSpec.EXACTLY);</span><br><span class="line">		super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用自定义ViewPager<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.hellsam.scrollviewwithviewpager.AutoHeightViewPager</span><br><span class="line">     android:id=&quot;@+id/viewPager&quot;</span><br><span class="line">     android:layout_width=&quot;match_parent&quot;</span><br><span class="line">     android:layout_height=&quot;wrap_content&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://o7tnpfx3h.bkt.clouddn.com/viewpager_content_max.png" alt="此处输入图片的描述"><br>这样在ViewPager onMeasure时就会设置子View中高度最高的View的高度作为ViewPager的高度<br>这样的话，在我们的例子中最高的View是内容3高度为800dp，所有此时ViewPager的高度就是800dp<br>而内容1的高度为300dp，这是我们就看到内容1下面还有一大片空白区域</p>
+<h3 id="解决方案-三"><a href="#解决方案-三" class="headerlink" title="解决方案 三"></a>解决方案 三</h3><p>动态修改ViewPager的高度, 子View初始化完成后或网络请求完成渲染完页面后，重置ViewPager的高度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">package com.hellsam.scrollviewwithviewpager;</span><br><span class="line">import android.os.AsyncTask;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.support.v4.app.FragmentActivity;</span><br><span class="line">import android.support.v4.view.ViewPager;</span><br><span class="line">import android.support.v4.view.ViewPager.OnPageChangeListener;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.LinearLayout;</span><br><span class="line">import android.widget.LinearLayout.LayoutParams;</span><br><span class="line">public class Solution3Activity extends FragmentActivity &#123;</span><br><span class="line">	private ViewPager viewPager;</span><br><span class="line">	private ViewPagerFragmentAdapter adapter;</span><br><span class="line">	private MyListener listener = new MyListener();</span><br><span class="line">	@Override</span><br><span class="line">	protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_solution3);</span><br><span class="line">		viewPager = (ViewPager) findViewById(R.id.viewPager);</span><br><span class="line">		adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager());</span><br><span class="line">		adapter.addFragment(new Content1Fragment());</span><br><span class="line">		adapter.addFragment(new Content2Fragment());</span><br><span class="line">		adapter.addFragment(new Content3Fragment());</span><br><span class="line">		viewPager.setOffscreenPageLimit(3);</span><br><span class="line">		viewPager.setOnPageChangeListener(listener);</span><br><span class="line">		viewPager.setAdapter(adapter);</span><br><span class="line">		// 模拟网络请求完成之后重置ViewPager高度</span><br><span class="line">		new myAsyncTask().execute();</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 重新设置viewPager高度</span><br><span class="line">	 * </span><br><span class="line">	 * @param position</span><br><span class="line">	 */</span><br><span class="line">	public void resetViewPagerHeight(int position) &#123;</span><br><span class="line">		View child = viewPager.getChildAt(position);</span><br><span class="line">		if (child != null) &#123;</span><br><span class="line">			child.measure(0, 0);</span><br><span class="line">			int h = child.getMeasuredHeight();</span><br><span class="line">			LinearLayout.LayoutParams params = (LayoutParams) viewPager</span><br><span class="line">					.getLayoutParams();</span><br><span class="line">			params.height = h + 50;</span><br><span class="line">			viewPager.setLayoutParams(params);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public class MyListener implements OnPageChangeListener &#123;</span><br><span class="line">		@Override</span><br><span class="line">		public void onPageScrollStateChanged(int arg0) &#123;</span><br><span class="line">		&#125;</span><br><span class="line">		@Override</span><br><span class="line">		public void onPageScrolled(int position, float positionOffset,</span><br><span class="line">				int positionOffsetPixels) &#123;</span><br><span class="line">		&#125;</span><br><span class="line">		@Override</span><br><span class="line">		public void onPageSelected(int position) &#123;</span><br><span class="line">			// 页面切换后重置ViewPager高度</span><br><span class="line">			resetViewPagerHeight(position);</span><br><span class="line">			switch (position) &#123;</span><br><span class="line">			case 0:</span><br><span class="line">				break;</span><br><span class="line">			case 1:</span><br><span class="line">				break;</span><br><span class="line">			case 2:</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public class myAsyncTask extends AsyncTask&lt;Void, Void, Void&gt; &#123;</span><br><span class="line">		@Override</span><br><span class="line">		protected Void doInBackground(Void... params) &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				Thread.sleep(1000);</span><br><span class="line">			&#125; catch (InterruptedException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">		@Override</span><br><span class="line">		protected void onPostExecute(Void result) &#123;</span><br><span class="line">			resetViewPagerHeight(0);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>取消方案2中设置的自定义ViewPager<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.v4.view.ViewPager</span><br><span class="line">    android:id=&quot;@+id/viewPager&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://o7tnpfx3h.bkt.clouddn.com/viewpager_conent_height_adjust1.png" alt="此处输入图片的描述"><br>就是滑到不同页面重新计算高度<br>另外<br>当ScrollView在滑动后没有完全停止时，是无法左右滑动ViewPager，这可以通过重写ScrollView的方法来解决<br>自定义ScrollView代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">package com.hellsam.scrollviewwithviewpager;</span><br><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.util.Log;</span><br><span class="line">import android.view.GestureDetector;</span><br><span class="line">import android.view.GestureDetector.SimpleOnGestureListener;</span><br><span class="line">import android.view.MotionEvent;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.webkit.WebView;</span><br><span class="line">import android.widget.ScrollView;</span><br><span class="line">import android.widget.Scroller;</span><br><span class="line">/**</span><br><span class="line"> * 自定义ScrollView，解决：ScrollView嵌套ViewPager，导致ViewPager不能滑动的问题</span><br><span class="line"> */</span><br><span class="line">public class CustomScrollView extends ScrollView &#123;</span><br><span class="line">	private GestureDetector mGestureDetector;</span><br><span class="line">	private int Scroll_height = 0;</span><br><span class="line">	private int view_height = 0;</span><br><span class="line">	protected Field scrollView_mScroller;</span><br><span class="line">	private static final String TAG = &quot;CustomScrollView&quot;;</span><br><span class="line">	public CustomScrollView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">		super(context, attrs);</span><br><span class="line">		mGestureDetector = new GestureDetector(context, new YScrollDetector());</span><br><span class="line">		setFadingEdgeLength(0);</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public boolean onInterceptTouchEvent(MotionEvent ev) &#123;</span><br><span class="line">		if (ev.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">			stopAnim();</span><br><span class="line">		&#125;</span><br><span class="line">		boolean ret = super.onInterceptTouchEvent(ev);</span><br><span class="line">		boolean ret2 = mGestureDetector.onTouchEvent(ev);</span><br><span class="line">		return ret &amp;&amp; ret2;</span><br><span class="line">	&#125;</span><br><span class="line">	// Return false if we&apos;re scrolling in the x direction</span><br><span class="line">	class YScrollDetector extends SimpleOnGestureListener &#123;</span><br><span class="line">		@Override</span><br><span class="line">		public boolean onScroll(MotionEvent e1, MotionEvent e2,</span><br><span class="line">				float distanceX, float distanceY) &#123;</span><br><span class="line">			if (Math.abs(distanceY) &gt; Math.abs(distanceX)) &#123;</span><br><span class="line">				return true;</span><br><span class="line">			&#125;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	protected void onScrollChanged(int l, int t, int oldl, int oldt) &#123;</span><br><span class="line">		boolean stop = false;</span><br><span class="line">		if (Scroll_height - view_height == t) &#123;</span><br><span class="line">			stop = true;</span><br><span class="line">		&#125;</span><br><span class="line">		if (t == 0 || stop == true) &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				if (scrollView_mScroller == null) &#123;</span><br><span class="line">					scrollView_mScroller = getDeclaredField(this, &quot;mScroller&quot;);</span><br><span class="line">				&#125;</span><br><span class="line">				Object ob = scrollView_mScroller.get(this);</span><br><span class="line">				if (ob == null || !(ob instanceof Scroller)) &#123;</span><br><span class="line">					return;</span><br><span class="line">				&#125;</span><br><span class="line">				Scroller sc = (Scroller) ob;</span><br><span class="line">				sc.abortAnimation();</span><br><span class="line">			&#125; catch (Exception e) &#123;</span><br><span class="line">				Log.e(TAG, e.getMessage());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		super.onScrollChanged(l, t, oldl, oldt);</span><br><span class="line">	&#125;</span><br><span class="line">	private void stopAnim() &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			if (scrollView_mScroller == null) &#123;</span><br><span class="line">				scrollView_mScroller = getDeclaredField(this, &quot;mScroller&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">			Object ob = scrollView_mScroller.get(this);</span><br><span class="line">			if (ob == null) &#123;</span><br><span class="line">				return;</span><br><span class="line">			&#125;</span><br><span class="line">			Method method = ob.getClass().getMethod(&quot;abortAnimation&quot;);</span><br><span class="line">			method.invoke(ob);</span><br><span class="line">		&#125; catch (Exception ex) &#123;</span><br><span class="line">			Log.e(TAG, ex.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	protected int computeVerticalScrollRange() &#123;</span><br><span class="line">		Scroll_height = super.computeVerticalScrollRange();</span><br><span class="line">		return Scroll_height;</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	protected void onLayout(boolean changed, int l, int t, int r, int b) &#123;</span><br><span class="line">		super.onLayout(changed, l, t, r, b);</span><br><span class="line">		if (changed == true) &#123;</span><br><span class="line">			view_height = b - t;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public void requestChildFocus(View child, View focused) &#123;</span><br><span class="line">		if (focused != null &amp;&amp; focused instanceof WebView) &#123;</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line">		super.requestChildFocus(child, focused);</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 获取一个对象隐藏的属性，并设置属性为public属性允许直接访问</span><br><span class="line">	 * </span><br><span class="line">	 * @return &#123;@link Field&#125; 如果无法读取，返回null；返回的Field需要使用者自己缓存，本方法不做缓存�?</span><br><span class="line">	 */</span><br><span class="line">	public static Field getDeclaredField(Object object, String field_name) &#123;</span><br><span class="line">		Class&lt;?&gt; cla = object.getClass();</span><br><span class="line">		Field field = null;</span><br><span class="line">		for (; cla != Object.class; cla = cla.getSuperclass()) &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				field = cla.getDeclaredField(field_name);</span><br><span class="line">				field.setAccessible(true);</span><br><span class="line">				return field;</span><br><span class="line">			&#125; catch (Exception e) &#123;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>参考，下载地址<br><a href="https://github.com/hellsam/ScrollViewWithViewPager" target="_blank" rel="external">github</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/viewpager/" rel="tag">#viewpager</a>
+          
+            <a href="/tags/android基础/" rel="tag">#android基础</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/15/9.ViewPager(一)：取消左右滑动/" rel="next" title="ViewPager(一)：取消左右滑动">
+                <i class="fa fa-chevron-left"></i> ViewPager(一)：取消左右滑动
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/27/7.hexo插入音乐-视频/" rel="prev" title="Hexo插入音乐、视频">
+                Hexo插入音乐、视频 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/20/10.ViewPager(二)：ScrollView嵌套ViewPager冲突问题/"
+           data-title="ViewPager(二)：ScrollView嵌套ViewPager" data-url="http://yoursite.com/2016/05/20/10.ViewPager(二)：ScrollView嵌套ViewPager冲突问题/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Mr. Tigger" />
+          <p class="site-author-name" itemprop="name">Mr. Tigger</p>
+          <p class="site-description motion-element" itemprop="description">simple && naive</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+          
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案一"><span class="nav-number">1.1.</span> <span class="nav-text">解决方案一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案-二"><span class="nav-number">1.2.</span> <span class="nav-text">解决方案 二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案-三"><span class="nav-number">1.3.</span> <span class="nav-text">解决方案 三</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr. Tigger</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+<span id="busuanzi_container_site_pv">
+    浏览量<span id="busuanzi_value_site_pv"></span>次
+    访问量<span id="busuanzi_value_site_uv"></span>次
+</span>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"tiggerlei"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+
+  
+</body>
+</html>
