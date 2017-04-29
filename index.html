@@ -336,7 +336,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Uri allContacts = Uri.parse(&quot;content://contacts/people&quot;);</span><br></pre></td></tr></table></figure>
 <p>读取通信录中联系人信息<br>其中自定义常量“content://contacts/people”可以用<strong>预定义查询字符常量</strong>来代替<br>上述可写为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Uri allContacts = ContactsContract.Contacts.CONTENT_URI;</span><br></pre></td></tr></table></figure>
-<p>查询相关通信录相关参数<br>String[] columns = new String[]{ContactsContract.Contacts.DISPLAY_NAME,ContactsContract.Contacts._ID};</p>
+<p>查询相关通信录相关参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String[] columns = new String[]&#123;ContactsContract.Contacts.DISPLAY_NAME,ContactsContract.Contacts._ID&#125;;</span><br></pre></td></tr></table></figure>
 <p>然后利用Adapter显示在Activity的ListView中<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/08/25/19.ContentProvider<一>/#more" rel="contents">
@@ -453,19 +454,13 @@
 
       
         
-          
-            <p>##Internet传输基本概念</p>
-<p>###1.数据和信号<br>数据分模拟数据和数字数据<br><strong>模拟数据：</strong>由传感器采集得到的连续变化的值,如温度、压力以及目前在电话、无线和电视广播中的声音和图像。<br><strong>数字数据：</strong>模拟数据经采集、量化、编码后所得到的离散的值，</p>
-<p>信号：数据在传输过程中的表示形式，电信号，光信号，声音信号等。</p>
-<p>###信道和带宽<br><strong>信道：</strong><br>以传输媒体和中继设施为基础，<br>分为有线信道和无线信道</p>
-<p>有线信道：有传输媒介<br>无线信道：传输媒介为自由空间</p>
-<p>信道按传输信号类型<br>分模拟信道和数字信道</p>
-<p><strong>带宽</strong><br>实际上包括信号带宽和信道带宽。<br>信号带宽以电磁波形式传输；信道带宽是指信道上能够传送的最大频率范围。</p>
-<p>###信道容量和数据传输速率<br>（1）信道容量是在信道在单位时间内可以传输的最大信号量，表示信道的传输能力。<br>（2）数据传输速率<br>是指在通信线上传输信息的速度。</p>
-<p>###差错矫正和误码率<br>差错矫正之字符代码在传输、接收过程中，由于信息噪声或其他外界干扰，难免会发生错误。<br>误码率 信息传输的错误率。</p>
-<p>###宽带和窄带<br>低于1Mbps为窄带宽，高于1Mbps则为带宽接入</p>
-
-          
+          <h2 id="Internet传输基本概念"><a href="#Internet传输基本概念" class="headerlink" title="Internet传输基本概念"></a>Internet传输基本概念</h2><h3 id="1-数据和信号"><a href="#1-数据和信号" class="headerlink" title="1.数据和信号"></a>1.数据和信号</h3><p>数据分模拟数据和数字数据<br><strong>模拟数据：</strong>由传感器采集得到的连续变化的值,如温度、压力以及目前在电话、无线和电视广播中的声音和图像。<br><strong>数字数据：</strong>模拟数据经采集、量化、编码后所得到的离散的值，</p>
+<p>信号：数据在传输过程中的表示形式，电信号，光信号，声音信号等。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/20/18.流媒体传输基础<一>/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
         
       
     </div>
